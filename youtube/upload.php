@@ -37,12 +37,16 @@ $drive_link = "google drive link";
             <div class="mb-3">
                 <label for="" class="form-label">Visibility</label>
                 <div class="form-check">
+                    <input type="radio" class="form-check-input" id="video-visibility-public" name="video-visibility" value="public">
+                    <label for="video-visibility-public" class="form-check-label">Public</label>
+                </div>
+                <div class="form-check">
                     <input type="radio" class="form-check-input" id="video-visibility-private" name="video-visibility" value="private">
                     <label for="video-visibility-private" class="form-check-label">Private</label>
                 </div>
                 <div class="form-check">
-                    <input type="radio" class="form-check-input" id="video-visibility-public" name="video-visibility" value="public">
-                    <label for="video-visibility-public" class="form-check-label">Public</label>
+                    <input type="radio" class="form-check-input" id="video-visibility-unlisted" name="video-visibility" value="unlisted">
+                    <label for="video-visibility-public" class="form-check-label">Unlisted</label>
                 </div>
             </div>
             <div class="row mt-3 justify-content-md-end">

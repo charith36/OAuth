@@ -4,8 +4,7 @@ require('../vendor/autoload.php');
 $client = new Google_Client();
 $client->setApplicationName('SSD Assignment');
 $client->setScopes([
-    //'https://www.googleapis.com/auth/youtube.readonly',
-    'https://www.googleapis.com/auth/youtube.upload',
+    'https://www.googleapis.com/auth/youtube.readonly',
 ]);
 $client->setAuthConfig('web-client.json');
 // offline access will give you both an access and refresh token so that
