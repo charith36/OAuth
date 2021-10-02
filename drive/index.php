@@ -74,7 +74,7 @@ if(!isset($_SESSION['access_token']))
  <body>
     <div class="container">
       <br />
-      <h2 align="center">PHP Login using Google Account</h2>
+      <h2 align="center">PHP </h2>
       <br />
       <div class="panel panel-default">
         <?php
