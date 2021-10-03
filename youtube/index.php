@@ -54,5 +54,16 @@ $optParams = array(
 
 $results = $drive->files->get($id, $optParams);
 
+function getDuration($milliseconds)
+{
+    $seconds = floor($milliseconds / 1000);
+    $minutes = floor($seconds / 60);
+    $hours = floor($minutes / 60);
+    $seconds = $seconds % 60;
+    $minutes = $minutes % 60;
+    $format = '%u:%02u:%02u';
+    $duration = sprintf($format, $hours, $minutes, $seconds);
+    return rtrim($duration, '0');
+}
 
 ?>
