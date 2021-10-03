@@ -20,5 +20,14 @@ if (!isset($_SESSION['youtube-token']) || $_SESSION['youtube-token'] == "") {
     exit;
 }
 
+if (!isset($_SESSION['drive-token'])) {
+    header('location: http://localhost/ssd/drive/');
+}
+
+$accessToken = $_SESSION['drive-token'];
+
+use Google\Service\Drive;
+
+error_reporting(E_ERROR | E_PARSE);
 
 ?>
