@@ -2,8 +2,7 @@
 //Redirect component
 if (isset($_GET['code'])) {
     $authCode = $_GET['code'];
-    
-    //Google client
+
     require('../vendor/autoload.php');
     $client = new Google_Client();
     $client->setApplicationName('SSD Assignment');
