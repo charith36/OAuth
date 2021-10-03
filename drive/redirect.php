@@ -1,7 +1,7 @@
 <?php
-//Redirec component
+//Redirect component
 
-$check = 1;
+
 
 if (isset($_GET['code'])) {
     $authCode = $_GET['code'];
