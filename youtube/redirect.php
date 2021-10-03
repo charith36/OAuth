@@ -9,5 +9,10 @@ if (isset($_GET['code'])) {
     $client->setScopes([
         'https://www.googleapis.com/auth/youtube.upload',
     ]);
-  
+    
+    $client->setAuthConfig('web-client.json');
+    $client->setAccessType('offline');
+    $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
+
+    
 }
