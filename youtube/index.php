@@ -40,7 +40,8 @@ $client->setAuthConfig('drive-client.json');
 
 $drive = new Drive($client);
 
-
+// offline access will give you both an access and refresh token so that
+// your app can refresh the access token without user interaction.
 $client->setAccessType('offline');
 
 // Exchange authorization code for an access token.
