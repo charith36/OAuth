@@ -1,8 +1,5 @@
 <?php
 //Redirect component
-
-
-
 if (isset($_GET['code'])) {
     $authCode = $_GET['code'];
   
@@ -15,7 +12,8 @@ if (isset($_GET['code'])) {
     $client->setAuthConfig('drive-client.json');
     $client->setAccessType('offline');
     $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-
+    
+    //session satrt
     session_start();
     $_SESSION['drive-token'] = $accessToken;
     header('location: http://localhost/ssd/drive/');
