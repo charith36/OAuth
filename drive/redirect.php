@@ -1,4 +1,5 @@
 <?php
+//Redirec component
 
 if (isset($_GET['code'])) {
     $authCode = $_GET['code'];
