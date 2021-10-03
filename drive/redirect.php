@@ -1,8 +1,8 @@
 <?php
-
+//Redirect component
 if (isset($_GET['code'])) {
     $authCode = $_GET['code'];
-
+  
     require('../vendor/autoload.php');
     $client = new Google_Client();
     $client->setApplicationName('SSD Assignment');
@@ -13,7 +13,6 @@ if (isset($_GET['code'])) {
     $client->setAccessType('offline');
     $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
     
-    //start session
     session_start();
     $_SESSION['drive-token'] = $accessToken;
     header('location: http://localhost/ssd/drive/');
