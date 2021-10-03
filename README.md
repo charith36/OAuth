@@ -1,9 +1,9 @@
 # Drive2Tube <br/> ( SSD_Assignment_02_2021 )
-with Oauth 2.0 Framework
+With Oauth 2.0 Framework
 
 Easily upload your Google Drive videos directly to Youtube. No account registration required! Use your Google accounts to quickly sign in and upload a video. 
 <br/>
-# Deployment instructions <br/>
+# Deployment Instructions <br/>
 1. The application can be run locally.<br/>
 2. In order to run the application, a tool such as XAMPP or WAMPP is needed. <br/>
 3. Clone the git repository.<br/>
