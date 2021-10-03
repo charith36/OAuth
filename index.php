@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample Page</title>
+    <title>Drive2Tube</title>
 
     <!-- Load Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
@@ -14,71 +14,31 @@
     <!-- Load jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 </head>
-<!--here goes the headings-->
-<body class="mb-5">
-    <!-- Headings -->
-    <h1 class="display-1">Heading 1</h1>
-    <h1 class="display-2">Heading 2</h1>
-    <h1 class="display-3">Heading 3</h1>
-    <h1 class="display-4">Heading 4</h1>
-    <h1 class="display-5">Heading 5</h1>
-    <h1 class="display-6">Heading 6</h1>
-    <hr>
 
-    <!-- Buttons -->
-    <button class="btn btn-primary">Blue Button</button>
-    <button class="btn btn-success">Green Button</button>
-    <button class="btn btn-warning">Yellow Button</button>
-    <button class="btn btn-dark">Dark Button</button>
-    <button class="btn btn-danger">Red Button</button>
-    <button class="btn btn-secondary">Grey Button</button>
-
-    <br><br>
-
-    <!-- Lead Paragraph -->
-    <h6 class="display-6">Lead Paragraph</h6>
-    <p class="lead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur ipsum quos, optio perspiciatis amet ducimus, dolores laborum atque, ad explicabo in unde voluptate veniam aliquam delectus. Iusto alias ducimus, explicabo laudantium aliquam tempore nisi error assumenda, sint, quam minus voluptate corrupti magnam! Vero eligendi dolorem vel provident aliquid. Magnam, libero.</p>
-    <h6 class="display-6">Normal Paragraph</h6>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quisquam porro eligendi officiis quis tempore dignissimos voluptatibus accusamus, repellat, fugit, deleniti amet ipsam natus doloribus quidem? Eveniet perferendis, ullam unde quod eos, asperiores placeat perspiciatis, explicabo tempora voluptate porro velit beatae debitis veritatis mollitia nisi neque quis accusamus aliquid minus.</p>
-
-    <br>
-    <hr><br>
-
-    <!-- Grid System -->
-    <h6 class="display-6">Grid System with Borders, Margins and Paddings</h6>
-    <div class="row m-0">
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-            <div class="border rounded p-3">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, libero.</p>
+<body class="">
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="http://localhost/ssd/">Drive2Tube</a>
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link mr-3" aria-current="page" href="logout.php">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-            <div class="border rounded p-3">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, libero.</p>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-4 mb-3">
-            <div class="border rounded p-3">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, libero.</p>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-            <div class="border rounded p-3">
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam magnam unde iure hic dolorem tempora voluptatum explicabo dolor fugiat exercitationem.</p>
-            </div>
-        </div>
-        <div class="col-sm-12 col-md-6 col-lg-6 mb-3">
-            <div class="border rounded p-3">
-                <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deserunt, ratione dolor! Placeat vitae voluptates, laborum ad ullam officiis. Totam, officia.</p>
-            </div>
-        </div>
+    </nav>
+
+    <div class="text-center p-4">
+        <h3 class="display-3">Drive2Tube</h3>
+        <h4 class="display-6">Upload your Google Drive videos directly to Youtube without a hazzle!</h4>
+        <hr>
+        <p class="lead">Click on the button below to get started!</p>
+
+        <a class="btn btn-success w-25 mt-4" href="http://localhost/ssd/drive/">Get Started!</a>
+
     </div>
-
-    <br>
-    <hr><br>
-
-    <h6 class="display-6">Bootstrap Link</h6>
-    <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/" target="_blank">Click here to visit Bootstrap Docs</a>
 </body>
 
 </html>
