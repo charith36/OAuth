@@ -1,208 +1,179 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['drive-token']) || $_SESSION['drive-token'] == "") {
+    require('../vendor/autoload.php');
+    $client = new Google_Client();
+    $client->setApplicationName('SSD Assignment');
+    $client->setScopes([
+        'https://www.googleapis.com/auth/drive.readonly',
+    ]);
+    $client->setAuthConfig('drive-client.json');
+    $client->setPrompt('select_account consent');
+    $authUrl = $client->createAuthUrl();
+    header('location: ' . $authUrl);
+    exit;
+}
+
+$accessToken = $_SESSION['drive-token'];
+
+use Google\Service\Drive;
+
+error_reporting(E_ERROR | E_PARSE);
+
+require('../vendor/autoload.php');
+$client = new Google_Client();
+$client->setApplicationName('SSD Assignment');
+$client->setScopes([
+    'https://www.googleapis.com/auth/drive.readonly',
+]);
+$client->setAuthConfig('drive-client.json');
+
+$drive = new Drive($client);
+
+// offline access will give you both an access and refresh token so that
+// your app can refresh the access token without user interaction.
+$client->setAccessType('offline');
+
+// Exchange authorization code for an access token.
+$client->setAccessToken($accessToken);
+
+$optParams = array(
+    'pageSize' => 100,
+    'fields' => 'nextPageToken, files(id, name, description, properties, spaces, webContentLink, webViewLink, iconLink, hasThumbnail, thumbnailVersion, thumbnailLink, createdTime, modifiedTime, ownedByMe, capabilities, permissions, permissionIds, originalFilename, fullFileExtension, fileExtension, size, contentHints, videoMediaMetadata, exportLinks)',
+    'q' => "mimeType='video/mp4'"
+);
+
+$results = $drive->files->listFiles($optParams);
+
+function getDuration($milliseconds)
+{
+    $seconds = floor($milliseconds / 1000);
+    $minutes = floor($seconds / 60);
+    $hours = floor($minutes / 60);
+    $seconds = $seconds % 60;
+    $minutes = $minutes % 60;
+    $format = '%u:%02u:%02u';
+    $duration = sprintf($format, $hours, $minutes, $seconds);
+    return rtrim($duration, '0');
+}
+?>
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta charset="utf-8" />
-    <title>Google Picker Example</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'/>
-  <link rel="stylesheet" href="css/drive.css">
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <script src="js/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <link href="js/bootstrap.bundle.min.js" rel="stylesheet" />
-  <script src="https://kit.fontawesome.com/842606c366.js" crossorigin="anonymous"></script>
+<html lang="en">
 
-    <script type="text/javascript">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drive2Tube</title>
 
-    //Browser API key
-    var developerKey = 'AIzaSyBifKJcjX0gEsggaFMU0zmnu7qJ_nmWZCQ';
+    <!-- Load Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-    //Client ID
-    var clientId = "191872964217-mqeb0dakacjbk01ta296q5h0f7mp8eno.apps.googleusercontent.com"
+    <!-- Load jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
 
-    //Project number
-    var appId = "191872964217";
+    <!-- SweetALert -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
 
-    //Scope to use to access user's Drive items
-    var scope = ['https://www.googleapis.com/auth/drive.file'];
-
-    //Define variables
-    var pickerApiLoaded = false;
-    var oauthToken;
-    var userData=null;
-
-    //Load Google Picker
-    function loadPicker() {
-      gapi.load('auth', {'callback': onAuthApiLoad});
-      gapi.load('picker', {'callback': onPickerApiLoad});
-    }
-
-    //Authentication
-    function onAuthApiLoad() {
-      window.gapi.auth.authorize(
-          {
-            'client_id': clientId,
-            'scope': scope,
-            'immediate': false
-          },
-          handleAuthResult);
-    }
-
-    //Load the Picker
-    function onPickerApiLoad() {
-      pickerApiLoaded = true;
-      createPicker();
-    }
-
-    //Animation for future object
-    function sleep(ms) {
-      return new Promise(resolve => setTimeout(resolve, ms));
-   }
-
-    //Get user information
-    async function handleAuthResult(authResult) {
-      if (authResult && !authResult.error) {
-        oauthToken = authResult.access_token;
-        
-        userData = await fetch('https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token='+authResult.access_token).then(function(response){return response.json()});
-        console.log(userData);
-        document.getElementById('userprofilePic').src=userData.picture;
-        
-        //Display user details
-        $('#userprofilePic').show(500);
-        document.getElementById('userName').innerHTML=userData.email;
-        document.getElementById('userEmail').innerHTML=userData.family_name;
-
-        await sleep(500);
-        $('#userData').fadeIn(500);
-
-        createPicker();
-      }
-    }
-
-    //Create and render Picker object
-    function createPicker() {
-      if (pickerApiLoaded && oauthToken) {
-        var view = new google.picker.View(google.picker.ViewId.DOCS);
-        view.setMimeTypes("video/mp4,video/mov,video/mpeg-1,video/mpeg-2,video/mpeg4,video/mpg,video/avi,video/wmv,video/flv,video/3gpp,video/webm,video/prores,video/hevec,video/cineform,video/dnxhr");
-        var picker = new google.picker.PickerBuilder()
-            .enableFeature(google.picker.Feature.NAV_HIDDEN)
-            .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-            .setAppId(appId)
-            .setOAuthToken(oauthToken)
-            .addView(view)
-            .addView(new google.picker.DocsUploadView())
-            .setDeveloperKey(developerKey)
-            .setCallback(pickerCallback)
-            .build();
-         picker.setVisible(true);
-      }
-    }
-
-    //Picker callback
-    function pickerCallback(data) {
-      if (data.action == google.picker.Action.PICKED) {
-        var fileId = data.docs[0];
-        console.log(fileId);
-
-        //Show hidden steps
-        var x = document.getElementById("hiddenShow");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-
-        var x = document.getElementById("hiddenShowYou");
-        if (x.style.display === "none") {
-            x.style.display = "block";
-        } else {
-            x.style.display = "none";
-        }
-        
-        //Set values
-        document.getElementById('fileName').innerHTML="File Name: " + fileId.name;
-        document.getElementById('fileID').innerHTML="File ID: " + fileId.id;
-        document.getElementById('fileType').innerHTML="Video Type: " + fileId.mimeType;
-        document.getElementById('fileSize').innerHTML="Size: " + fileId.sizeBytes + " Bytes";
-        document.getElementById('fileUrl').innerHTML="File URL: " + fileId.url;
-        document.getElementById('loadDriveBtn').innerHTML="Choose another file";
-      }
-    }
-    </script>
-
-
-  </head>
-  <body>
-    <div id="result"></div>
-    <div class="row mt-3"></div>
-    <div class="row mt-3"></div>
-    <div class="container">
-        <div class="container d-flex align-items-center pt-sm pb-sm text-center">
-            <div class="col px-0 text-center">
-                <h1 class="my-0 text-truncate h1-resp shad display-4">Drive2Tube</h1>
-                <h2 class="my-0 h2-resp text-muted">Upload your Google Drive videos directly to Youtube without a hazzle!</h2>
-                <h3 class="h3">Click on the button below to get started!</h3>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="http://localhost/ssd/">Drive2Tube</a>
+            <div class="d-flex">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link mr-3" aria-current="page" href="../logout.php">Logout</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </nav>
 
-        <div class="row mt-3"></div>
-        <div class="row mt-3"></div>
-
-        <div class="row">
-            <img class="user-profile" src="" style="height:auto; display:none;" id="userprofilePic">
-            <div style="display:none" id="userData">
-                <h4>Welcome</h4>
-                <h4 class="col-12" id="userEmail"></h4>
-                <h6 class="col-12" id="userName"></h6>
-            </div>
+    <div class="p-3">
+        <h5 class="display-5">Select a video file</h5>
+        <hr>
+        <p class="lead">Number of videos: <?php echo count($results->getFiles()); ?></p>
+        <div class="row mt-3">
+            <?php
+            foreach ($results['files'] as $item) {
+                echo '<div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 mb-3">';
+                echo '<div class="card">';
+                if ($item['hasThumbnail']) {
+                    echo '<img src="' . $item['thumbnailLink'] . '" class="card-img-top" alt="Video thumbnail">';
+                }
+                echo '<div class="card-body">';
+                echo '<h5 class="card-title">' . $item['name'] . '</h5>';
+                echo '<p class="card-text">';
+                $bytes = $item['size'];
+                if ($bytes >= 1073741824) {
+                    $bytes = number_format($bytes / 1073741824, 2) . ' GB';
+                } elseif ($bytes >= 1048576) {
+                    $bytes = number_format($bytes / 1048576, 2) . ' MB';
+                } elseif ($bytes >= 1024) {
+                    $bytes = number_format($bytes / 1024, 2) . ' KB';
+                } elseif ($bytes > 1) {
+                    $bytes = $bytes . ' bytes';
+                } elseif ($bytes == 1) {
+                    $bytes = $bytes . ' byte';
+                } else {
+                    $bytes = '0 bytes';
+                }
+                echo '<b>Size:</b> ' . $bytes . '<br>';
+                $date = new DateTime(date($item['createdTime']));
+                echo '<b>Created:</b> ' . $date->format('F jS, Y g:i A') . '<br>';
+                $millis = $item['videoMediaMetadata']['durationMillis'];
+                $duration = getDuration($millis);
+                echo '<b>Duration:</b> ' . $duration . '<br>';
+                echo '<b>Resolution:</b> ' . $item['videoMediaMetadata']['width'] . 'x' . $item['videoMediaMetadata']['height'] . '<br>';
+                echo '</p>';
+                echo '</div>';
+                echo '<div class="card-footer">';
+                echo '<a class="btn btn-primary w-100" href="' . $item['webViewLink'] . '" target="_blank">Watch Video</a>';
+                echo '<button class="btn btn-danger mt-3 w-100 youtube-button" data-id="' . $item['id'] . '">Add to YouTube</button>';
+                echo '</div>';
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
         </div>
-
-        <div class="col-md-12 text-center"> 
-            <!--Button to initiate Drive access -->
-            <button class="btn btn-success" id="loadDriveBtn" onclick="showPickerDialog()"><i class="fab fa-google-drive"></i>Load Drive file</button>
-        </div>
-
-        <div class="row mt-3"></div>
-        <div id="hiddenShow" style="display:none" class="card">
-            <div class="card-header">
-            <h4><strong>Step 1: Select file</strong></h4>
-            </div>
-            <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    <i class="far fa-arrow-alt-circle-right"></i><p id="fileName"></p>
-                    <p id="fileID"></p>
-                    <p id="fileType"></p>
-                    <p id="fileSize"></p>
-                    <p id="fileUrl"></p>
-                </blockquote>
-            </div>
-        </div>
-
-        <div id="hiddenShowYou" style="display:none" class="card">
-            <div class="row mt-3"></div>
-            <div class="card-header">
-            <h4><strong>Step 2: Select Youtube</strong></h4>
-            </div>
-            <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    
-                </blockquote>
-            </div>
-        </div>
-        
     </div>
 
-
-    <!-- The Google API Loader script. -->
-    <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
-    
     <script>
+        $(document).ready(function() {
+            $(".youtube-button").click(function() {
+                var id = $(this).attr('data-id');
 
-    //When Drive button is pressed
-    function showPickerDialog(){
-        loadPicker()
-    }
+                $.post("cookie.php", {
+                    id: id,
+                    submit: 'file-selected'
+                }, function(data, status) {
+                    if (status == "success") {
+                        if (data == "success") {
+                            window.location.href = "../youtube/";
+                        } else {
+                            Swal.fire(
+                                'Error!',
+                                data,
+                                'error'
+                            );
+                        }
+                    } else {
+                        Swal.fire(
+                            'Error!',
+                            'System error!',
+                            'error'
+                        );
+                    }
+                });
+            });
+        });
     </script>
-    
-  </body>
+</body>
+
 </html>
