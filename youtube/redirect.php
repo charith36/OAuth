@@ -14,5 +14,8 @@ if (isset($_GET['code'])) {
     $client->setAccessType('offline');
     $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
 
+    session_start();
+    $_SESSION['youtube-token'] = $accessToken;
+    header('location: http://localhost/ssd/youtube/');
     
 }
