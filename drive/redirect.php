@@ -12,7 +12,8 @@ if (isset($_GET['code'])) {
     $client->setAuthConfig('drive-client.json');
     $client->setAccessType('offline');
     $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-
+    
+    //start session
     session_start();
     $_SESSION['drive-token'] = $accessToken;
     header('location: http://localhost/ssd/drive/');
