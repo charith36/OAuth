@@ -6,7 +6,7 @@ use Google\Service\YouTube\VideoSnippet;
 use Google\Service\YouTube\VideoStatus;
 
 session_start();
-if (!isset($_SESSION['id']) || !isset($_SESSION['youtube-token'])) {
+if (!isset($_SESSION['id'])) {
     echo 'Error';
     exit;
 }
