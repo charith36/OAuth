@@ -1,12 +1,1 @@
-{
-  "web": {
-    "client_id": "323629705503-t3um66efei42855s9khqhmco2plbk1ek.apps.googleusercontent.com",
-    "project_id": "ssd-assignment-327516",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_secret": "xj0eELpHcLOeoUwKYqfnwC3k",
-    "redirect_uris": ["http://localhost/ssd/drive/redirect.php"],
-    "javascript_origins": ["http://localhost"]
-  }
-}
+{"web":{"client_id":"433927705859-75gish96vk180ub6uohl39ogvh4cb67r.apps.googleusercontent.com","project_id":"ssd-assignment-2-329210","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"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","redirect_uris":["http://localhost/ssd/drive/redirect.php"]}}
