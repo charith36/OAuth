@@ -5,7 +5,7 @@ With Oauth 2.0 Framework
 Easily upload your Google Drive videos directly to Youtube. No account registration required! Use your Google accounts to quickly sign in and upload a video.
 <br/>
 
-### Local Deployment Instructions <br/>
+## Local Deployment Instructions <br/>
 
 1. In order to run the application, a tool such as XAMPP or WAMPP is needed.<br/>
 2. Clone the git repository.<br/>
