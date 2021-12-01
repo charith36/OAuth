@@ -2,7 +2,7 @@
 
 With Oauth 2.0 Framework
 
-Easily upload your Google Drive videos directly to Youtube. No account registration required! Use your Google accounts to quickly sign in and upload a video.
+Easily upload your Google Drive videos directly to Youtube. No account registration is required! Use your Google accounts to quickly sign in and upload a video.
 <br/>
 
 ## Local Deployment Instructions <br/>
@@ -17,3 +17,13 @@ Easily upload your Google Drive videos directly to Youtube. No account registrat
    URL:- http://localhost/OAuth/
 7. The client application will start.<br/>
 8. Enjoy!
+
+<br/>
+<br/>
+
+## Contributors
+
+1. Charith Kodagoda
+2. Vihanga Madampe
+3. Ridmi Ekanayake
+4. Nirma De Silva
